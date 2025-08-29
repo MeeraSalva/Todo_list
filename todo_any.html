@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToDo App 📋</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ffffff, #3B82F6);
+    min-height: 100vh;
+}
+
+/* Login Box */
+#login-section {
+    max-width: 350px;
+    background: white;
+    margin: 120px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in;
+}
+#login-section h1 { color: #2563EB; }
+label { display: block; margin-top: 10px; font-weight: bold; }
+input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-top: 5px; }
+input:focus { border-color: #2563EB; outline: none; }
+button { padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+/* Login button */
+.login-btn { width: 100%; background: #2563EB; color: white; margin-top: 15px; }
+.login-btn:hover { background: #1E40AF; }
+
+/* To-Do Section */
+#todo-section { display: none; animation: fadeIn 1s ease-in; }
+header {
+    background: #3B82F6;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-btn {
+    background: #10B981;
+    color: white;
+    margin-right: 10px;
+}
+.add-btn:hover { background: #059669; }
+
+/* Logout Button */
+.logout-btn {
+    background: #F59E0B;
+    color: white;
+}
+.logout-btn:hover { background: #D97706; }
+
+ul { list-style: none; padding: 20px; }
+li .task-card {
+    background: white;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+li .task-card:hover { transform: translateY(-3px); }
+.task-card h3 { margin: 0; color: #111; }
+.task-card p { color: #555; font-size: 14px; margin: 5px 0; }
+
+/* Remove Button */
+.remove-btn {
+    background: #EF4444;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.remove-btn:hover { background: #DC2626; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+
+<script>
+// Login Validation - now accepts any credentials
+function login() {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("todo-section").style.display = "block";
+}
+
+// Logout Function
+function logout() {
+    document.getElementById("todo-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+}
+
+// Add Task
+function addTask() {
+    let taskname = prompt("Enter your task:");
+    if (!taskname) return;
+    let time = prompt("Enter due time/date:");
+    let task = { name: taskname, time: time };
+    saveTask(task);
+    renderTasks();
+}
+
+// Save Task to LocalStorage
+function saveTask(task) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// Load Tasks on Page Load
+function loadTasks() {
+    renderTasks();
+}
+
+// Display All Tasks with Remove Button
+function renderTasks() {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    let taskList = document.getElementById("task-list");
+    taskList.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+        let li = document.createElement("li");
+        li.innerHTML = `
+            <div class='task-card'>
+                <div>
+                    <h3>${task.name}</h3>
+                    <p>⏰ ${task.time}</p>
+                </div>
+                <button class='remove-btn' onclick='removeTask(${index})'>Remove</button>
+            </div>`;
+        taskList.appendChild(li);
+    });
+}
+
+// Remove Task
+function removeTask(index) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks(); 
+}
+
+window.onload = loadTasks;
+</script>
+</head>
+
+<body>
+<!-- Login Section -->
+<div id="login-section">
+    <h1>Login</h1>
+    <label>Username:</label>
+    <input type="text" id="username">
+    <label>Password:</label>
+    <input type="password" id="password">
+    <button class="login-btn" onclick="login()">Login</button>
+</div>
+
+<!-- To-Do Section -->
+<div id="todo-section">
+    <header>
+        <h1>My To-Do List 📝</h1>
+        <div>
+            <button class="add-btn" onclick="addTask()">+ Add Task</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+    <ul id="task-list"></ul>
+</div>
+</body>
+</html>
