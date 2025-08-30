@@ -28,24 +28,24 @@
 
 🧾 Project Overview
 
-• The user logs in using a username and password.
-
-• After login, the dashboard is displayed.
-
-• Users can add new tasks with a name and time.
-
-• Each task is stored in the to-do list.
-
-• The list shows tasks in an organized way.
-
-• Users can remove tasks once completed.
-
-• Changes are updated instantly on the interface.
-
-• A clean UI makes task management simple.
-
-• The user can log out after finishing tasks.
-
-• The application ensures a smooth and secure flow.
-
-
+      • The user logs in using a username and password.
+      
+      • After login, the dashboard is displayed.
+      
+      • Users can add new tasks with a name and time.
+      
+      • Each task is stored in the to-do list.
+      
+      • The list shows tasks in an organized way.
+      
+      • Users can remove tasks once completed.
+      
+      • Changes are updated instantly on the interface.
+      
+      • A clean UI makes task management simple.
+      
+      • The user can log out after finishing tasks.
+      
+      • The application ensures a smooth and secure flow.
+      
+      
